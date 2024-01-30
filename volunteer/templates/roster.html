@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  body
+  {
+    margin: 5px;
+  h3
+  {
+    color: black;
+  }
+
+  #totals td {
+    padding: 0 10px;
+  }
+  #totals td:nth-child(even)
+  {
+    text-align: right
+  }
+</style>
+
+<hr>
+<h3>HCHS Volunteers Directory                       {{ date_printed }}</h3>
+<hr>
+<div class="table-responsive">
+<table class="table table-bordered table-hover table-condensed table-striped">
+  <thead>
+    <tr>      
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Cell Phone</th>
+      <th scope="col">Email</th>
+      <th scope="col">Emergency Contact / Phone</th>
+      {% if user.username == 'jbarlow' or user.username == 'jlessert' %}
+      <th scope="col">Update</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+   {% for people in obj %}
+    <tr>
+      <td>{{people.first_name}}</td>
+      <td>{{people.last_name}}</td>
+      <td>{{people.cell_phone}}</td>
+      <td>{{people.email}}</td>
+      <td>{{people.emergency_contact_name}} {{people.emergency_contact_phone}}</td>
+      {% if user.username == 'jbarlow' or user.username == 'lessert' %}
+      <td>
+        <a href="{% url 'update' people.id %}">Update</a>
+      </td>
+      {% endif %}
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% comment %} <div>
+  <table id="totals">
+    <tr>
+      <td>
+        <h4>Total Individuals:</h4>
+      </td>
+      <td>
+        <h4>{{ obj|length }}</h4>
+      </td>
+    </tr>
+        <td>
+        <h4>Total Families:</h4> 
+      </td>
+      <td>
+        <h4>{{ family_count }}</h4>
+      </td>
+    </tr>
+  </table>
+</div> {% endcomment %}
+{% endblock %}
+

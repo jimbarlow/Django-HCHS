@@ -60,7 +60,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # FORM SUBMISSION
 # Comment out the following line and place your railway URL, and your production URL in the array.
 
-CSRF_TRUSTED_ORIGINS = ['https://localhost:8000', 'https://volunteers.harthumane.org', 'https://django-server-production-2070.up.railway.app' ]
+CSRF_TRUSTED_ORIGINS = ['https://localhost', 'https://volunteers.harthumane.org', 'https://django-server-production-2070.up.railway.app' ]
 
 # Application definition
 

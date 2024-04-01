@@ -1,7 +1,7 @@
 from django.urls import path, include, reverse
 from . import views
 # from .views import ModelFormWizard
-from .forms import CreateVolunteersEntry, UpdateVolunteersEntry
+from .forms import CreateVolunteerEntry, UpdateVolunteerEntry
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -11,8 +11,9 @@ urlpatterns = [
     # path( 'entry_form/<membership_id>/', views.entry_form, name='entry_form'),
     path( 'create/', views.create, name='create'),
     path( 'update/<int:volunteer_id>/', views.update, name='update' ),
+    path( 'roles/<int:volunteer_id>/', views.roles, name='roles' ),
     # path( 'mailtest/', views.mailtest, name='mailtest' ),
     #  path( '', views.front_page, name='home' ),
     path( '', TemplateView.as_view(template_name='front_page.html'), name='home'),
-    # path("create/", CreateVolunteersEntry.as_view(), name='create'),
+    # path("create/", CreateVolunteerEntry.as_view(), name='create'),
     ]

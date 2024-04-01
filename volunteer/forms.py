@@ -1,7 +1,7 @@
 from email.policy import default
 from django import forms
 from django.forms import ModelForm
-from .models import Volunteers
+from .models import Volunteer, VolunteerRole
 
 from django.utils import timezone
 
@@ -17,15 +17,21 @@ from django.utils import timezone
 #     home_phone = forms.CharField(label="Home Phone", required=False, max_length=15)
 #     dues_paid_for_year = forms.CharField(label="Dues Paid for Year", required=False, max_length=4)
  
-#     # checker_box = forms.BooleanField(required=False
+#     # checker_box = forms.BooleanField(required=False)
 
-class CreateVolunteersEntry(ModelForm):
+class CreateVolunteerEntry(forms.ModelForm):
     class Meta:
-        model = Volunteers
+        model = Volunteer
         fields = '__all__'
 
 
-class UpdateVolunteersEntry(ModelForm):
+class UpdateVolunteerEntry(forms.ModelForm):
     class Meta:
-        model = Volunteers
+        model = Volunteer
         fields = '__all__'
+
+class VolunteerRoleForm(forms.ModelForm):
+    class Meta:
+        model = VolunteerRole
+        fields = '__all__'
+        volunteer_role = forms.CharField(label='Add a Role to this Volunteer', widget=forms.Select(choices={('Dog Walker', 'Board Member')}))

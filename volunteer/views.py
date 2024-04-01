@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, resolve_url
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template, Context
-from .models import Volunteers
+from .models import Volunteer, VolunteerRole
 from django.urls import reverse
 # Datetime stuff
 import datetime
 from django.http import HttpResponse
 # from collections import Counter
-from .forms import CreateVolunteersEntry, UpdateVolunteersEntry
+from .forms import CreateVolunteerEntry, UpdateVolunteerEntry, VolunteerRoleForm
 from django.views.decorators.csrf import csrf_protect
 from django.core.mail import EmailMessage
 import os
@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import login_required
 # for class based views:
 from django.views import View
 from django.forms import formset_factory, modelformset_factory, inlineformset_factory
-# from .forms import MemberShipYearsForm
+from .forms import VolunteerRoleForm
 # for Formtools multi form wizardry
 from django.http import HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
@@ -28,7 +28,6 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 # Create your views here.
-
 # def front_page(request):
 #     return render(request, 'front_page.html')
 
@@ -43,7 +42,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 #     def done(self, form_list, **kwargs):
 #         for form in form_list:
 #             form.save()
-#         return HttpResponseRedirect('home')
+#         return H        ttpResponseRedirect('home')
 
 # def entry_form(request, membership_id, *args, **kwargs):
 
@@ -65,7 +64,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 @login_required
 def browse_roster(request):
 
-    obj = Volunteers.objects.all().order_by('last_name','first_name')
+    obj = Volunteer.objects.all().order_by('last_name','first_name')
 
     # addresses = []
     # for address in obj:
@@ -125,7 +124,9 @@ def csv( request, year2view ):
     })
 # '<a href="{{ csvfile }}" download>')
 
-
+    print(volunteer)
+    print(volunteer.id)
+    print(volunteer_id)
 @login_required
 def mailtest(request):
 
@@ -149,7 +150,9 @@ def mailtest(request):
     #         'firstname': firstname,
     #         'cellphone': cellphone,
     #         'email': email,
-    #         'otherphone': otherphone,
+    #         'otherphone': otherphone,    print(volunteer)
+    print(volunteer.id)
+    print(volunteer_id)
     #         'address': address,
     #         'otheraddress': otheraddress,
     #         'emergencycontact': emergencycontact
@@ -163,7 +166,7 @@ def mailtest(request):
 @login_required
 def create(response):
     if response.method == "POST":
-        form = CreateVolunteersEntry(response.POST)
+        form = CreateVolunteerEntry(response.POST)
         if form.is_valid():
             form.save()
             # member_id=Membership.newmanager.get(last_name='')
@@ -171,23 +174,18 @@ def create(response):
             # return redirect('/update/' + str(form.id) + '/')
         else:
             print("didn't pass is_valid")
-    form = CreateVolunteersEntry()
+    form = CreateVolunteerEntry()    
     return render(response, "create.html", {"form": form})
 
 @login_required
 def update(request, volunteer_id):
-    print('Update was called')
-    volunteer = Volunteers.objects.get(pk=volunteer_id)
-    print(volunteer)
-    print(volunteer.id)
-    print(volunteer_id)
-    form = UpdateVolunteersEntry(
-        request.POST or None, request.FILES or None, instance=volunteer)
-    if request.method == 'POST':
-        print('Call was an HCHS POST')
 
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+    form = UpdateVolunteerEntry(
+        request.POST or None, request.FILES or None, instance=volunteer)
+  
+    if request.method == 'POST':
         if form.is_valid():
-            print('Form was Valid')
 
             form.save()
             return redirect('/update/' + str(volunteer.id) + '/')
@@ -200,4 +198,23 @@ def update(request, volunteer_id):
                 {'volunteer': volunteer,
                    'form': form})
 
+@login_required
+def roles(request, volunteer_id):
+
+    volunteer = VolunteerRole.objects.get(pk=volunteer_id)
+
+    form = VolunteerRoleForm(
+        request.POST or None, instance=volunteer)
+    
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('/update/' + str(volunteer.id) + '/')
+        else:
+            print('roles form was not valid')
+    print('Request was not a POST')
+    return render(request, 'roles.html',
+                  {'volunteer': volunteer,'form':form})
+
+    
 

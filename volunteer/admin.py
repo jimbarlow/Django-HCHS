@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from volunteer.models import Volunteers
+from volunteer.models import Volunteer, VolunteerRole
+
 from django import forms
 from ckeditor.widgets import CKEditorWidget
 
@@ -21,6 +22,12 @@ class FlatPageCustom(FlatPageAdmin):
 admin.site.unregister(FlatPage)
 admin.site.register(FlatPage, FlatPageCustom)
 
-admin.site.register(Volunteers)
 
+class VolunteerRoleAdminInline(admin.TabularInline):
+    model = VolunteerRole
 
+class VolunteerAdminInline(admin.ModelAdmin):
+    # model = Volunteer
+    inlines = [VolunteerRoleAdminInline]
+
+admin.site.register(Volunteer, VolunteerAdminInline)

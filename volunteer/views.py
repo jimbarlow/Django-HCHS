@@ -98,7 +98,7 @@ def browse_roster(request):
      
     context = {
         'obj': obj,
-        'date_printed': datetime.date.toda/y(),
+        'date_printed': datetime.date.today(),
         }
 
     return render(request, 'roster.html', context)

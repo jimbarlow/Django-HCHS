@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, resolve_url
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template, Context
-from .models import Volunteer, VolunteerRole
+from .models import Volunteer, VolunteerRole, Tickets
 from django.urls import reverse
 # Datetime stuff
 import datetime
@@ -26,7 +26,6 @@ from django.core.mail import send_mail, get_connection
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-
 # Create your views here.
 # def front_page(request):
 #     return render(request, 'front_page.html')
@@ -62,6 +61,31 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
    
 @login_required
+def tickets(request):
+    directory = 'static'
+
+    file_names = []
+    for filename in os.listdir(directory):
+        # f = os.path.join(directory, filename)
+        # checking if it is a file
+        print ('Filename looped is:', filename)
+        # if os.path.isfile(filename):
+        #     print(filename)
+        #     # fabs = os.path.abspath(f)
+        entry = Tickets(ticket_path = filename)
+        entry.save()
+        
+    return HttpResponse('This is the ticket ingestion complete')
+
+@login_required
+def print_tickets(request):
+    obj = Tickets.objects.all()
+    context = {
+        'tickets': obj
+        }
+    return render(request, 'tickets.html', context)
+
+@login_required
 def browse_roster(request):
 
     obj = Volunteer.objects.all().order_by('last_name','first_name')
@@ -74,7 +98,7 @@ def browse_roster(request):
      
     context = {
         'obj': obj,
-        'date_printed': datetime.date.today(),
+        'date_printed': datetime.date.toda/y(),
         }
 
     return render(request, 'roster.html', context)

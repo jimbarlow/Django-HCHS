@@ -16,4 +16,6 @@ urlpatterns = [
     #  path( '', views.front_page, name='home' ),
     path( '', TemplateView.as_view(template_name='front_page.html'), name='home'),
     # path("create/", CreateVolunteerEntry.as_view(), name='create'),
+    path('ingest_tickets/', views.tickets, name='ingest_tickets'),
+    path('print_tickets/', views.print_tickets, name='print_tickets')
     ]

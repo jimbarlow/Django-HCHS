@@ -28,6 +28,9 @@ class Volunteer(models.Model):
     def __str__(self):
         return self.first_name+' '+self.last_name
     
+class Tickets(models.Model):
+    ticket_path = models.CharField(max_length=300)
+    
 class VolunteerRole(models.Model):
     volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
     volunteer_role = models.CharField(null=True, blank=True, max_length=100)

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+
+<body>
+    {% block content %}
+
+    <div class="container text-left">
+        <div class="row align-items-left">
+          <div class="col">
+  
+            <h3>Update an Entry</h3>
+            <p>Please update the data for the role
+            <br/>
+            <form method="post" action="/update_roles_catalog/{{ role.id }}/ ">
+                {% csrf_token %}
+                <table>
+                {{ form|crispy }}
+                </table>
+                <br/>
+                <button type="submit", name="save" class="btn btn-primary">Update This Entry</button>
+                <input type="button" onclick="location.href='/print_roles_catalog/';" class="btn btn-primary" value="Return to Roles Catalog" />
+        
+                
+            </form>
+            <br/>
+            <a href="/">Return to the Front Page</a>
+          </div>
+          <div class="col">
+             
+              {% comment %} Empty column for form spacing {% endcomment %}
+
+          </div>
+        </div>
+    </div>
+
+
+</body>
+{% endblock %}

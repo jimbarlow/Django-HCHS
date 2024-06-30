@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  body
+  {
+    margin: 5px;
+  h3
+  {
+    color: black;
+  }
+
+  #totals td {
+    padding: 0 10px;
+  }
+  #totals td:nth-child(even)
+  {
+    text-align: right
+  }
+</style>
+
+<hr>
+<h3>HCHS Roles Catalog                       {{ date_printed }}</h3>
+<hr>
+<div class="table-responsive">
+<table class="table table-bordered table-hover table-condensed table-striped">
+  <thead>
+    <tr>      
+      <th scope="col">Volunteer Role</th>
+      <th scope="col">Role Description</th>
+      {% if user.username == 'jbarlow' or user.username == 'jlessert' %}
+      <th scope="col">Update</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+   {% for volunteer_role in obj %}
+    <tr>
+      <td>{{volunteer_role.vol_role_catalog}}</td>
+      <td>{{volunteer_role.volunteer_role_catalog_description}}</td>
+      {% if user.username == 'jbarlow' or user.username == 'lessert' %}
+      <td>
+        <a href="{% url 'update_roles_catalog' volunteer_role.id %}">Update</a>
+      </td>
+      {% endif %}
+    </tr>
+   {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% comment %} <div>
+  <table id="totals">
+    <tr>
+      <td>
+        <h4>Total Individuals:</h4>
+      </td>
+      <td>
+        <h4>{{ obj|length }}</h4>
+      </td>
+    </tr>
+        <td>
+        <h4>Total Families:</h4>  the 
+      </td>
+      <td>
+        <h4>{{ family_count }}</h4>
+      </td>
+    </tr>
+  </table>
+</div> {% endcomment %}
+{% endblock %}
+

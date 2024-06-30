@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, resolve_url
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template, Context
-from .models import Volunteer, VolunteerRole, Tickets
+from .models import Volunteer, VolunteerRole, Tickets, VolunteerRolesCatalog
 from django.urls import reverse
 # Datetime stuff
 import datetime
 from django.http import HttpResponse
 # from collections import Counter
-from .forms import CreateVolunteerEntry, UpdateVolunteerEntry, VolunteerRoleForm
+from .forms import VolunteerEntryForm  # VolunteerRoleForm,
 from django.views.decorators.csrf import csrf_protect
 from django.core.mail import EmailMessage
 import os
@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import login_required
 # for class based views:
 from django.views import View
 from django.forms import formset_factory, modelformset_factory, inlineformset_factory
-from .forms import VolunteerRoleForm
+from .forms import VolunteerRolesCatalogForm
 # for Formtools multi form wizardry
 from django.http import HttpResponseRedirect
 from formtools.wizard.views import SessionWizardView
@@ -76,7 +76,6 @@ def tickets(request):
         entry.save()
         
     return HttpResponse('This is the ticket ingestion complete')
-
 @login_required
 def print_tickets(request):
     obj = Tickets.objects.all()
@@ -87,7 +86,11 @@ def print_tickets(request):
 
 @login_required
 def browse_roster(request):
-
+# class CreateRolesEntry(forms.ModelForm):
+#     class Meta:
+#         model = VolunteerRole
+#         fields = '__all__'
+        
     obj = Volunteer.objects.all().order_by('last_name','first_name')
 
     # addresses = []
@@ -99,13 +102,16 @@ def browse_roster(request):
     context = {
         'obj': obj,
         'date_printed': datetime.date.today(),
-        }
-
+        }# class CreateRolesEntry(forms.ModelForm):
+#     class Meta:
+#         model = VolunteerRole
+#         fields = '__all__'
+        
     return render(request, 'roster.html', context)
 
 @login_required
 def csv( request, year2view ):
-    print ( year2view )
+    print ( year2view )  
     print(type( year2view ))
     end_year2view=str(int(year2view)+1)
     print (end_year2view)
@@ -124,13 +130,7 @@ def csv( request, year2view ):
       # print(os.listdir())
       # #  os.chdir("/static")
       # # cwd = os.getcwd()
-      # print(cwd)
-
-      for i in obj:
-          csvfile.write(i.first_name +' '+ i.last_name +',' +i.email+','+ i.cell_phone + '\n')
-          print(i.first_name +' '+ i.last_name +',' +i.email+','+ i.cell_phone)
-
-      print("Let's see if we can find the output file")
+      # print(cwd)reateVolunteerEntry
       print(os.listdir())
 
           # print(i.first_name +' '+ i.last_name +',' +i.email+','+ i.cell_phone)
@@ -138,7 +138,20 @@ def csv( request, year2view ):
     # <a href="{{ your_file_url}}" download>
 
     print('now we return the response')
-    
+@login_required
+def create(response):
+    form = VolunteerEntryForm(response.POST)
+    if response.method == "POST":
+
+        if form.is_valid():
+            form.save()
+            # member_id=Membership.newmanager.get(last_name='')    form = VolunteerEntryForm()    
+            return redirect ( 'home')
+            # return redirect('/update/' + str(form.id) + '/')
+        else:
+            print("didn't pass is_valid")
+    return render(response, "create.html", {"form": form})
+
     # f = open(csvfile, "r")
     f = open(output_file_name, "r")
     return HttpResponse( f, headers={
@@ -182,7 +195,7 @@ def mailtest(request):
     #         'emergencycontact': emergencycontact
     #         'emergencycontactphone': emergencycontactphone
     #       })return HttpResponse('This was the email test')
-    families = len(set(obj))
+    families = len(set(obj)) 
 
     return HttpResponse('This was the email test')
 
@@ -190,30 +203,28 @@ def mailtest(request):
 @login_required
 def create(response):
     if response.method == "POST":
-        form = CreateVolunteerEntry(response.POST)
+        form = VolunteerEntryForm(response.POST)
         if form.is_valid():
             form.save()
             # member_id=Membership.newmanager.get(last_name='')
-            return redirect ( 'home')
+            return redirect ( 'home')    
+         
             # return redirect('/update/' + str(form.id) + '/')
         else:
             print("didn't pass is_valid")
-    form = CreateVolunteerEntry()    
+    form = VolunteerEntryForm()
     return render(response, "create.html", {"form": form})
 
 @login_required
 def update(request, volunteer_id):
-
     volunteer = Volunteer.objects.get(pk=volunteer_id)
-    form = UpdateVolunteerEntry(
-        request.POST or None, request.FILES or None, instance=volunteer)
-  
+    form = VolunteerEntryForm(request.POST or None, 
+        request.FILES or None, instance=volunteer)    
     if request.method == 'POST':
         if form.is_valid():
-
             form.save()
-            return redirect('/update/' + str(volunteer.id) + '/')
-            # return redirect('/browse_roster/')
+            return redirect ('home')
+            # return redirect('/update/' + str(volunteer.id) + '/')
         else:
             print('form was not valid')
 
@@ -222,23 +233,47 @@ def update(request, volunteer_id):
                 {'volunteer': volunteer,
                    'form': form})
 
+
 @login_required
-def roles(request, volunteer_id):
-
-    volunteer = VolunteerRole.objects.get(pk=volunteer_id)
-
-    form = VolunteerRoleForm(
-        request.POST or None, instance=volunteer)
-    
-    if request.method == 'POST':
+def define_roles_catalog(request):
+    if request.method == "POST":
+        form = VolunteerRolesCatalogForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/update/' + str(volunteer.id) + '/')
+            return redirect('define_roles')
         else:
             print('roles form was not valid')
+    form = VolunteerRolesCatalogForm()
     print('Request was not a POST')
-    return render(request, 'roles.html',
-                  {'volunteer': volunteer,'form':form})
+    return render(request, 'create_roles.html', {"form": form})
 
-    
 
+@login_required
+def update_roles_catalog(request, role_id):
+    role = VolunteerRolesCatalog.objects.get(pk=role_id)
+    form = VolunteerRolesCatalogForm(
+        request.POST or None, request.FILES or None, instance=role)
+  
+    if request.method == 'POST':
+        if form.is_valid():
+
+            form.save()
+            return redirect('/update_roles_catalog/' + str(role.id) + '/')
+        else:
+            print('form was not valid')
+
+    return render(request, 'update_roles_catalog.html',
+                {'role': role,
+                'form': form})   
+
+@login_required
+def print_roles_catalog(request):
+    obj = VolunteerRolesCatalog.objects.all()
+    context = {
+        'obj': obj,
+        'date_printed': datetime.date.today(),
+        }
+    return render(request, 'roles_catalog.html', context)
+
+def about_us(request):
+    return render ( request, 'about_us.html')

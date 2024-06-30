@@ -64,6 +64,10 @@ CSRF_TRUSTED_ORIGINS = ['https://localhost', 'https://volunteers.harthumane.org'
 
 # Application definition
 
+CRISPY_ALLOWED_TEMPLATE_PACKS="boostrap5"
+
+CRISPY_TEMPLATE_PACK="bootstrap5"
+
 INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
@@ -83,6 +87,7 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.google',
     'dam_walk',
     'volunteer',
+    'django_extensions',
 
 ]
 

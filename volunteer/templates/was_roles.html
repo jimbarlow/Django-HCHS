@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+ 
+{% block content %}
+ 
+<h1>Create roles for {{ volunteer.name }}</h1>
+ 
+<button type="button" hx-get="/volunteer/roles" hx-target="#rolesforms" hx-swap="beforeend">
+    Add form
+</button>
+ 
+<div id="rolesforms"></div>
+ 
+{% endblock %}

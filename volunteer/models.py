@@ -6,6 +6,24 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 # Create your models here.
 
+class VolunteerRolesCatalog(models.Model):
+    volunteer_role_catalog_description = models.CharField(null=True, blank=True, max_length=200)
+    vol_role_catalog = models.CharField(max_length=50)
+    # date_entered = models.DateField(null=True, blank=True, default=timezone.now)
+
+    def __str__(self):
+      return self.vol_role_catalog 
+    
+class VolunteerRole(models.Model):
+
+    volunteer_role_description = models.CharField(null=True, blank=True, max_length=200)
+    vol_role = models.CharField(null=True, blank=True, max_length=50)
+    # date_entered = models.DateField(null=True, blank=True, default=timezone.now)
+
+    def __str__(self):
+      return self.vol_role
+
+  
 class Volunteer(models.Model):
 
     last_name = models.CharField(max_length=100)
@@ -22,20 +40,16 @@ class Volunteer(models.Model):
     disclaimer_signed = models.BooleanField(blank=True, default=False)
     status_notes = models.CharField(blank=True, max_length=2048)
     active = models.BooleanField(blank=True, default=False)
-     
-    # newmanager = models.Manager()
+    volunteer_role = models.ManyToManyField(VolunteerRolesCatalog, related_name="volunteer_role" )
 
     def __str__(self):
         return self.first_name+' '+self.last_name
     
+
+
+
 class Tickets(models.Model):
     ticket_path = models.CharField(max_length=300)
     
-class VolunteerRole(models.Model):
-    volunteer = models.ForeignKey(Volunteer, on_delete=models.CASCADE)
-    volunteer_role = models.CharField(null=True, blank=True, max_length=100)
-    date_entered = models.DateField(null=True, blank=True, default=timezone.now)
 
-    def __str__(self):
-      return (str(self.volunteer_role))
     

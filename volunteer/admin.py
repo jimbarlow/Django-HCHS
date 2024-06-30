@@ -23,11 +23,11 @@ admin.site.unregister(FlatPage)
 admin.site.register(FlatPage, FlatPageCustom)
 
 
-class VolunteerRoleAdminInline(admin.TabularInline):
-    model = VolunteerRole
+# class VolunteerRoleAdminInline(admin.TabularInline):
+#     model = VolunteerRole
 
-class VolunteerAdminInline(admin.ModelAdmin):
-    # model = Volunteer
-    inlines = [VolunteerRoleAdminInline]
+# class VolunteerAdminInline(admin.ModelAdmin):
+#     # model = Volunteer
+#     inlines = [VolunteerRoleAdminInline]
 
-admin.site.register(Volunteer, VolunteerAdminInline)
+# admin.site.register(Volunteer, VolunteerAdminInline)

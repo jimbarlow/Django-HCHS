@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.box{
+    width: 200px;
+    height: 150px;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    border-style: dotted;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+p{
+    line-height: 0px
+    font-size: .8em;
+}
+
+#box1{
+
+    
+    width: 325px;
+}
+#box2{
+
+    width: 1000px;
+    text-align: left;
+    font-size: 15px;
+}
+.admit-one{
+    font-size: 
+}
+#box3{
+    padding: 5px;
+
+}
+li {
+    list-style-type:square;
+    margin: 0, 0;
+    padding: 0;
+    height: 16px;
+}
+</style>
+
+{% for ticket in tickets%}
+
+<div class="container" style="margin-bottom:15px">
+
+  <div class="box" id="box1" style="display:flex; align-items:center;justify-content:center;">
+    <img src="/static/HLMF2024.jpg" style="height: 120px;">
+  </div>
+  <div class="box" id="box2" style="margin-left: 8px;">
+      <span style="font-size: 1.25em;" >Admit One: </span><span>May 26th, 2024 Rain or Shine!</span>
+      <ul>
+          <li>Kids under 10 years are free</li>
+          <li>No Coolers in the Concert Area</li>
+          <li>For the benefit of Hart Cty Humane Society</li>
+      </ul>
+
+<div style="font-size: .8em;line-height: 0px;"> 
+    <p>
+    <p>Featured bands:
+
+<style>
+    td {
+        height: 12px;
+        padding: 5px;
+    }
+</style>
+<table style="">
+    <tr>
+        <td>4:00</td>
+        <td>Garrett Richardson</td>
+        <td>4:30</td>
+        <td>Scarlet Stitch</td>
+    </tr>
+    <tr>
+        <td>5:30</td>
+        <td>Brand New Relic</td>
+        <td>6:30</td>
+        <td>Lara Smith</td>
+    </tr> 
+    <tr>
+        <td>7:30</td>
+        <td>Diamondback</td>
+        <td>8:30</td>
+        <td>The Reservoir Dogs</td>
+    </tr> 
+</table>
+
+{% comment %} <p>4:00 pm Richard Garrett,  
+4:30 pm Scarlet Stitch<p>5:30 pm Brand New Relic,  6:30 pm Lara Smith <p> 7:30 pm Diamondback,  8:30 pm The Reservoir Dogs {% endcomment %}
+
+</div>
+  </div>
+  <div class="box" id="box3">
+
+    <img src="/static/{{ticket.ticket_path }}" style="height:140px; margin: auto;">
+  </div>
+
+
+</div>
+
+
+{% endfor %}
+{% endblock %}

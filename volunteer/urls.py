@@ -20,5 +20,6 @@ urlpatterns = [
     path('print_tickets/', views.print_tickets, name='print_tickets'),
     path('define_roles/', views.define_roles_catalog, name='define_roles'),
     path('update_roles_catalog/<int:role_id>/', views.update_roles_catalog, name='update_roles_catalog'),
-    path('about_us/', views.about_us, name='about_us')
+    path('about_us/', views.about_us, name='about_us'),
+    path('delete_role/<int:role_id>/', views.delete_role, name="delete_role")
     ]

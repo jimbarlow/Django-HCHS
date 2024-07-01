@@ -37,9 +37,9 @@ class VolunteerRolesCatalogForm(forms.ModelForm):
         fields = '__all__'
 
 
-class VolunteerRoleForm(forms.ModelForm):
-    # assign roles to 
-    class Meta:
-        model = VolunteerRole
-        fields = '__all__'
-        volunteer_role = forms.CharField(label='Add a Role to this Volunteer', widget=forms.Select(choices={('Dog Walker', 'Board Member', 'Cat Caretaker')}))
+# class VolunteerRoleForm(forms.ModelForm):
+#     # assign roles to 
+#     class Meta:
+#         model = VolunteerRole
+#         fields = '__all__'
+#         volunteer_role = forms.CharField(label='Add a Role to this Volunteer', widget=forms.Select(choices={('Dog Walker', 'Board Member', 'Cat Caretaker')}))

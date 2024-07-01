@@ -2,8 +2,8 @@
 
 {% block content %}
 <div>
-<h3>Create an Entry</h3>
-<li>Please enter a new role</li>
+<h3>Create a a New Role</h3>
+{% comment %} <p>Please enter a new role</p> {% endcomment %}
 
 <form method="post" action="/volunteer/define_roles/">
     {% csrf_token %}

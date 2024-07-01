@@ -267,6 +267,16 @@ def update_roles_catalog(request, role_id):
                 'form': form})   
 
 @login_required
+def delete_role(request, role_id):
+    role = VolunteerRolesCatalog.objects.get(pk=role_id)
+
+    role.delete()
+
+    return redirect('/print_roles_catalog/')
+
+ 
+
+@login_required
 def print_roles_catalog(request):
     obj = VolunteerRolesCatalog.objects.all()
     context = {

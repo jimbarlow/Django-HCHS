@@ -2,8 +2,25 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
+
+<br>
+<h2>You are logged in!</h2>
+<br>
+<img src="/static/TeeChee_Graduate.jpg" alt="TeeChee Graduate">
+<br/>
+
+
+{% else %}
+
 <h1>Hello Volunteers!</h1>
+<h2>Please Login</h2>
 
+<img src="/static/voluteers-needed.jpg" alt="Volunteers Needed">
+<br/>
 
+{% endif %}
 
 {% endblock %}
+
+  

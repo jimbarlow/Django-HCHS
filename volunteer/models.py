@@ -14,14 +14,6 @@ class VolunteerRolesCatalog(models.Model):
     def __str__(self):
       return self.vol_role_catalog 
     
-class VolunteerRole(models.Model):
-
-    volunteer_role_description = models.CharField(null=True, blank=True, max_length=200)
-    vol_role = models.CharField(null=True, blank=True, max_length=50)
-    # date_entered = models.DateField(null=True, blank=True, default=timezone.now)
-
-    def __str__(self):
-      return self.vol_role
 
   
 class Volunteer(models.Model):

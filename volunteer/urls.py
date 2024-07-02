@@ -1,7 +1,5 @@
 from django.urls import path, include, reverse
 from . import views
-# from .views import ModelFormWizard, about_us
-# from .forms import VolunteerEntryForm
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -21,5 +19,6 @@ urlpatterns = [
     path('define_roles/', views.define_roles_catalog, name='define_roles'),
     path('update_roles_catalog/<int:role_id>/', views.update_roles_catalog, name='update_roles_catalog'),
     path('about_us/', views.about_us, name='about_us'),
-    path('delete_role/<int:role_id>/', views.delete_role, name="delete_role")
+    path('delete_role/<int:role_id>/', views.delete_role, name="delete_role"),
+    path('volunteers_by_roles/', views.volunteers_by_roles, name='volunteers_by_roles')
     ]

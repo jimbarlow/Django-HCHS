@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, resolve_url
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template, Context
-from .models import Volunteer, VolunteerRole, Tickets, VolunteerRolesCatalog
+from .models import Volunteer,  Tickets, VolunteerRolesCatalog
 from django.urls import reverse
 # Datetime stuff
 import datetime
@@ -60,6 +60,29 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 #     return(render(request, 'formset.html', { 'formset' : formset, 'membership' : membership }))
 
    
+@login_required
+def roster_by_role(request):
+
+        
+    obj = Volunteer.objects.all().order_by('last_name','first_name')
+
+    # addresses = []
+    # for address in obj:
+    #     addresses.append(address.hartwell_address)
+
+    # families = len(set(addresses))
+     
+    context = {
+        'obj': obj,
+        'date_printed': datetime.date.today(),
+        }# class CreateRolesEntry(forms.ModelForm):
+#     class Meta:
+#         model = VolunteerRole
+#         fields = '__all__'
+        
+    return render(request, 'roster.html', context)
+
+
 @login_required
 def tickets(request):
     directory = 'static'
@@ -287,3 +310,37 @@ def print_roles_catalog(request):
 
 def about_us(request):
     return render ( request, 'about_us.html')
+
+
+def volunteers_by_roles(request):
+    for i in VolunteerRolesCatalog.objects.all():
+        print (i.vol_role_catalog)
+
+
+    vr = VolunteerRolesCatalog.objects.get(vol_role_catalog = "Board Member")
+    print (vr.id)
+    print (vr.vol_role_catalog)
+    print (vr.volunteer_role_catalog_description)
+    # outer loop, role by role
+
+    for role in VolunteerRolesCatalog.objects.all():
+    
+        print (role.vol_role_catalog)
+        obj = vr.volunteer
+    
+        for i in VolunteerRolesCatalog.objects.all():
+        
+            context = {
+                'role': role,
+
+                'obj': obj,
+                'date_printed': datetime.date.today(),
+            }
+            return render (request, roster_by_role.html, context)
+
+    
+    return redirect('print_roles_catalog')
+
+    
+
+    

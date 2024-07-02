@@ -1,9 +1,10 @@
-from volunteer.models import Volunteer, VolunteerRolesCatalog
-from django.db import connection
+from volunteer.views import *
+from volunteer.models import VolunteerRolesCatalog
 
 def run():
     
     # Scratch Pad Area
+
 
     for i in VolunteerRolesCatalog.objects.all():
         print (i.vol_role_catalog)
@@ -14,5 +15,4 @@ def run():
     print (vr.vol_role_catalog)
     print (vr.volunteer_role_catalog_description)
     for i in vr.volunteer_role.all():
-
         print (i.last_name)

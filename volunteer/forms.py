@@ -1,14 +1,11 @@
 from email.policy import default
 from django import forms
 from django.forms import ModelForm
-from .models import Volunteer, VolunteerRole, VolunteerRolesCatalog
+from .models import Volunteer, VolunteerRolesCatalog
 
 from django.utils import timezone
 
 class VolunteerEntryForm(forms.ModelForm):
-        # def __init__(self, *args, **kwargs):
-        # super().__init__(*args, **kwargs)
-        # self.fields["volunteer_roles"].widget.attrs.update()
     
     volunteer_role = forms.ModelMultipleChoiceField(queryset=VolunteerRolesCatalog.objects.all(),widget=forms.CheckboxSelectMultiple)
 
@@ -32,9 +29,12 @@ class VolunteerEntryForm(forms.ModelForm):
 
         
 class VolunteerRolesCatalogForm(forms.ModelForm):
+
+
     class Meta:
         model = VolunteerRolesCatalog
-        fields = '__all__'
+        fields = ['vol_role_catalog', 'volunteer_role_catalog_description']
+        labels = {'vol_role_catalog': "Role", 'volunteer_role_catalog_description': "Role Description"}
 
 
 # class VolunteerRoleForm(forms.ModelForm):

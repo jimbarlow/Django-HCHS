@@ -3,4 +3,4 @@
 
 # class VolunteerConfig(AppConfig):
 #     default_auto_field = 'django.db.models.BigAutoField'
-#     # name = 'volunteer'
+#     name = 'Volunteer'

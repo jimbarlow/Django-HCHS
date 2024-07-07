@@ -5,7 +5,7 @@
     <h3>Update an Entry</h3>
     <li>Please update the data for the volunteer {{ volunteer.first_name }} {{ volunteer.last_name }}</li>
     <br/>
-    <form method="post" action="/volunteer/update/{{ volunteer.id }}/ ">
+    <form method="post" action="/update/{{ volunteer.id }}/ ">
         {% csrf_token %}
         <table>
         {{ form.as_table }}

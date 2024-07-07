@@ -2,6 +2,8 @@ from django.urls import path, include, reverse
 from . import views
 from django.views.generic import TemplateView
 
+# app_name= "volunteer"
+
 urlpatterns = [
     path( 'browse_roster/', views.browse_roster, name='browse_roster' ),
     # path( 'csv/<str:year2view>/', views.csv, name='csv' ),
@@ -20,5 +22,5 @@ urlpatterns = [
     path('update_roles_catalog/<int:role_id>/', views.update_roles_catalog, name='update_roles_catalog'),
     path('about_us/', views.about_us, name='about_us'),
     path('delete_role/<int:role_id>/', views.delete_role, name="delete_role"),
-    path('volunteers_by_roles/', views.volunteers_by_roles, name='volunteers_by_roles')
+    path('roster_by_role/', views.roster_by_role, name='roster_by_role')
     ]

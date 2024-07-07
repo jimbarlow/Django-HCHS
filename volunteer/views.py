@@ -246,8 +246,8 @@ def update(request, volunteer_id):
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            return redirect ('home')
-            # return redirect('/update/' + str(volunteer.id) + '/')
+            # return redirect ('home')
+            return redirect('/update/' + str(volunteer.id) + '/')
         else:
             print('form was not valid')
 
@@ -312,31 +312,28 @@ def about_us(request):
     return render ( request, 'about_us.html')
 
 
-def volunteers_by_roles(request):
-    for i in VolunteerRolesCatalog.objects.all():
-        print (i.vol_role_catalog)
-
-
-    vr = VolunteerRolesCatalog.objects.get(vol_role_catalog = "Board Member")
-    print (vr.id)
-    print (vr.vol_role_catalog)
-    print (vr.volunteer_role_catalog_description)
+def roster_by_role(request):
+    list_of_roles = VolunteerRolesCatalog.objects.all()
+    # vr = VolunteerRolesCatalog.objects.get(vol_role_catalog = "Board Member")
+    # print (vr.id)
+    # print (vr.vol_role_catalog)
+    # print (vr.volunteer_role_catalog_description)
     # outer loop, role by role
 
-    for role in VolunteerRolesCatalog.objects.all():
-    
-        print (role.vol_role_catalog)
-        obj = vr.volunteer
-    
-        for i in VolunteerRolesCatalog.objects.all():
-        
-            context = {
-                'role': role,
+   
 
-                'obj': obj,
-                'date_printed': datetime.date.today(),
-            }
-            return render (request, roster_by_role.html, context)
+    # for role in list_of_roles:
+    
+    #     print (role.vol_role_catalog)
+    #     obj = vr.volunteer
+    
+        
+    context = {
+        'list_of_roles': list_of_roles,
+        # 'obj': obj,
+        'date_printed': datetime.date.today(),
+    }
+    return render (request, "roster_by_role.html", context)
 
     
     return redirect('print_roles_catalog')

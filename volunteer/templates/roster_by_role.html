@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  body
+  {
+    margin: 5px;
+  h3
+  }
+  {
+    color: black;
+  }
+
+  #totals td {
+    padding: 0 10px;
+  }
+  #totals td:nth-child(even)
+  {
+    text-align: right
+  }
+</style>
+
+<hr>
+<h3>HCHS Volunteers Directory                       {{ date_printed }}</h3>
+<hr>
+
+{% for role in obj_role %}
+     
+    <h3>Volunteers in the role {{ role }} -- {{role.volunteer_role_catalog_description }}</h3>
+    <br>
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover table-condensed table-striped">
+    <thead>
+        <tr>      
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Cell Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Cats/Dogs/Both</th>   
+        <th scope="col">Emergency Contact / Phone</th>
+        {% if user.username == 'jbarlow' or user.username == 'jlessert' %}
+        <th scope="col">Update</th>
+        {% endif %}
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    {% for people in role.volunteer_role.all %}
+      <tr>
+        <td>{{people.first_name}}</td>
+        <td>{{people.last_name}}</td>
+        <td>{{people.cell_phone}}</td>
+        <td>{{people.email}}</td>
+        <td>{{people.animals_preference}}</td>
+        <td>{{people.emergency_contact_name}} {{people.emergency_contact_phone}}</td>
+        {% if user.username == 'jbarlow' or user.username == 'lessert' %}
+        <td>
+            <a href="{% url 'update' people.id %}">Update</a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor people %}
+    </tbody>
+  </table>
+</div>
+{% endfor role %}
+
+
+{% endblock %}

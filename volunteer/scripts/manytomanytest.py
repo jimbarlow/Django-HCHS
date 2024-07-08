@@ -4,27 +4,40 @@ from django.db import connection
 
 
 def run():
+
+    # replace this with a context building set    
+    obj_role = VolunteerRolesCatalog.objects.all()
+    obj_vol = Volunteer.objects.all()
     
-    # Scratch Pad Area
 
 
-    # for i in VolunteerRolesCatalog.objects.all():
-    #     print (i.vol_role_catalog)
+    context =  {
+        'obj_role': obj_role,
+        'obj_vol': obj_vol
+    }
+    # end context building setup
 
-    vol_role_catalog = "Board Member"
-    vr = VolunteerRolesCatalog.objects.filter(vol_role_catalog)
-    print (vr.id)
-    print (vr.vol_role_catalog)
-    print (vr.volunteer_role_catalog_description)
-
-    # print (vr.volunteer_role.all())
-    
-    # for i in VolunteerRolesCatalog.objects.all():
-    #     print (vr.vol_role_catalog)
-
-    #     for j in vr.volunteer_role.all():
-    #         print (j.last_name, j.first_name)
-    # # in the above i is the volunteer.
+    for i in obj_role:    
 
 
-    Volunteer.objects.filter(volunteer_role=5)
+
+        #context[i.volunteer_role.last_name()] = context.get(i.category.name.lower(), []) + [i]
+
+        # newcontext = {'volunteers': volunteers, 'ingredients': ingredients, 'ingrcat': ingrcat, }
+
+        # context = dict(context.items() + newcontext.items())
+
+        print (i.vol_role_catalog, ' - ', i.volunteer_role_catalog_description)
+
+        # These for loops move into Django Templating Language
+        for j in VolunteerRolesCatalog.objects.filter(vol_role_catalog = i.vol_role_catalog):
+             for item in j.volunteer_role.all():
+                print ( item.first_name, item.last_name, item.cell_phone)
+
+
+
+# ingredients in ingredients category
+
+#ingrcat --|          volunteer_roles --|
+#          |                            |
+#        ingredients                volunteers

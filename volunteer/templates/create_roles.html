@@ -5,7 +5,8 @@
 <h3>Create a a New Role</h3>
 {% comment %} <p>Please enter a new role</p> {% endcomment %}
 
-<form method="post" action="/volunteer/define_roles/">
+# <form method="post" action="/volunteer/define_roles/">
+<form method="post" action="{% url 'define_roles' %}">
     {% csrf_token %}
     <table>
     {{ form.as_table }}

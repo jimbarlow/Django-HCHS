@@ -63,24 +63,17 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 @login_required
 def roster_by_role(request):
 
-        
-    obj = Volunteer.objects.all().order_by('last_name','first_name')
+    obj_vol = Volunteer.objects.all().order_by('last_name','first_name')
+    obj_role = VolunteerRolesCatalog.objects.all()
 
-    # addresses = []
-    # for address in obj:
-    #     addresses.append(address.hartwell_address)
 
-    # families = len(set(addresses))
-     
-    context = {
-        'obj': obj,
+    context =  {
+        'obj_role': obj_role,
+        'obj_vol': obj_vol,
         'date_printed': datetime.date.today(),
-        }# class CreateRolesEntry(forms.ModelForm):
-#     class Meta:
-#         model = VolunteerRole
-#         fields = '__all__'
-        
-    return render(request, 'roster.html', context)
+    }
+
+    return render(request, 'roster_by_role.html', context)
 
 
 @login_required
@@ -312,28 +305,28 @@ def about_us(request):
     return render ( request, 'about_us.html')
 
 
-def roster_by_role(request):
-    list_of_roles = VolunteerRolesCatalog.objects.all()
-    # vr = VolunteerRolesCatalog.objects.get(vol_role_catalog = "Board Member")
-    # print (vr.id)
-    # print (vr.vol_role_catalog)
-    # print (vr.volunteer_role_catalog_description)
-    # outer loop, role by role
+# def roster_by_role(request):
+#     list_of_roles = VolunteerRolesCatalog.objects.all()
+#     # vr = VolunteerRolesCatalog.objects.get(vol_role_catalog = "Board Member")
+#     # print (vr.id)
+#     # print (vr.vol_role_catalog)
+#     # print (vr.volunteer_role_catalog_description)
+#     # outer loop, role by role
 
    
 
-    # for role in list_of_roles:
+#     # for role in list_of_roles:
     
-    #     print (role.vol_role_catalog)
-    #     obj = vr.volunteer
+#     #     print (role.vol_role_catalog)
+#     #     obj = vr.volunteer
     
         
-    context = {
-        'list_of_roles': list_of_roles,
-        # 'obj': obj,
-        'date_printed': datetime.date.today(),
-    }
-    return render (request, "roster_by_role.html", context)
+#     context = {
+#         'list_of_roles': list_of_roles,
+#         # 'obj': obj,
+#         'date_printed': datetime.date.today(),
+#     }
+#     return render (request, "roster_by_role.html", context)
 
     
     return redirect('print_roles_catalog')

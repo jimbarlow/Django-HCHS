@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, resolve_url
+from django.contrib.auth.decorators import user_passes_test
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template, Context
@@ -26,6 +27,8 @@ from django.core.mail import send_mail, get_connection
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+
+
 # Create your views here.
 # def front_page(request):
 #     return render(request, 'front_page.html')
@@ -60,12 +63,11 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 #     return(render(request, 'formset.html', { 'formset' : formset, 'membership' : membership }))
 
    
-@login_required
+@login_required(login_url='login')
 def roster_by_role(request):
 
     obj_vol = Volunteer.objects.all().order_by('last_name','first_name')
     obj_role = VolunteerRolesCatalog.objects.all()
-
 
     context =  {
         'obj_role': obj_role,
@@ -75,8 +77,21 @@ def roster_by_role(request):
 
     return render(request, 'roster_by_role.html', context)
 
+@login_required(login_url='login')
+def roster_no_role(request):
 
-@login_required
+    no_role_volunteer = Volunteer.objects.all().filter(volunteer_role=None).order_by('last_name','first_name')
+
+
+    context =  {
+        'no_role_volunteer': no_role_volunteer,
+        'date_printed': datetime.date.today()
+    }
+
+    return render(request, 'roster_no_role.html', context)
+
+
+@login_required(login_url='login')
 def tickets(request):
     directory = 'static'
 
@@ -92,7 +107,7 @@ def tickets(request):
         entry.save()
         
     return HttpResponse('This is the ticket ingestion complete')
-@login_required
+@login_required(login_url='login')
 def print_tickets(request):
     obj = Tickets.objects.all()
     context = {
@@ -100,7 +115,7 @@ def print_tickets(request):
         }
     return render(request, 'tickets.html', context)
 
-@login_required
+@login_required(login_url='login')
 def browse_roster(request):
 # class CreateRolesEntry(forms.ModelForm):
 #     class Meta:
@@ -125,7 +140,7 @@ def browse_roster(request):
         
     return render(request, 'roster.html', context)
 
-@login_required
+@login_required(login_url='login')
 def csv( request, year2view ):
     print ( year2view )  
     print(type( year2view ))
@@ -154,7 +169,7 @@ def csv( request, year2view ):
     # <a href="{{ your_file_url}}" download>
 
     print('now we return the response')
-@login_required
+@login_required(login_url='login')
 def create(response):
     form = VolunteerEntryForm(response.POST)
     if response.method == "POST":
@@ -180,7 +195,7 @@ def create(response):
     print(volunteer)
     print(volunteer.id)
     print(volunteer_id)
-@login_required
+@login_required(login_url='login')
 def mailtest(request):
 
     #     files = ['/home/jim/personal/mfa/2023_MFA_Membership_Form.pdf']
@@ -216,7 +231,7 @@ def mailtest(request):
     return HttpResponse('This was the email test')
 
 
-@login_required
+@login_required(login_url='login')
 def create(response):
     if response.method == "POST":
         form = VolunteerEntryForm(response.POST)
@@ -231,7 +246,7 @@ def create(response):
     form = VolunteerEntryForm()
     return render(response, "create.html", {"form": form})
 
-@login_required
+@login_required(login_url='login')
 def update(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     form = VolunteerEntryForm(request.POST or None, 
@@ -264,7 +279,7 @@ def define_roles_catalog(request):
     return render(request, 'create_roles.html', {"form": form})
 
 
-@login_required
+@login_required(login_url='login')
 def update_roles_catalog(request, role_id):
     role = VolunteerRolesCatalog.objects.get(pk=role_id)
     form = VolunteerRolesCatalogForm(
@@ -282,7 +297,7 @@ def update_roles_catalog(request, role_id):
                 {'role': role,
                 'form': form})   
 
-@login_required
+@login_required(login_url='login')
 def delete_role(request, role_id):
     role = VolunteerRolesCatalog.objects.get(pk=role_id)
 
@@ -292,7 +307,7 @@ def delete_role(request, role_id):
 
  
 
-@login_required
+@login_required(login_url='login')
 def print_roles_catalog(request):
     obj = VolunteerRolesCatalog.objects.all()
     context = {
@@ -301,6 +316,7 @@ def print_roles_catalog(request):
         }
     return render(request, 'roles_catalog.html', context)
 
+@user_passes_test(lambda user: user.is_staff )
 def about_us(request):
     return render ( request, 'about_us.html')
 

@@ -39,6 +39,11 @@
                 <a class="nav-link active" aria-current="page" href="/roster_by_role/">Volunteers by Role</a>
               </li>
               {% endif %}
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/roster_no_role/">Vols w/o Role</a>
+              </li>
+              {% endif %}
 
               {% if user.is_authenticated %}
               <li class="nav-item dropdown">

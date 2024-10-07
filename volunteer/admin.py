@@ -20,7 +20,7 @@ from django.db import models
 #     }
 
 admin.site.unregister(FlatPage)
-admin.site.register(FlatPage, FlatPageCustom)
+admin.site.register(FlatPage)
 admin.site.register(Volunteer)
 
 

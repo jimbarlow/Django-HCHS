@@ -24,6 +24,8 @@ class VolunteerEntryForm(forms.ModelForm):
             'disclaimer_signed',
             'active',
             'volunteer_role',
+            'volunteer_preferred_times',
+            'other_notes'
         )
 
 

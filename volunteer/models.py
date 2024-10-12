@@ -21,7 +21,7 @@ class Volunteer(models.Model):
     last_name = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     cell_phone = models.CharField(blank=True, max_length=15)
-    email = models.EmailField(default='heyyou@example.com', blank=True)
+    email = models.EmailField(blank=True)
     home_phone = models.CharField(blank=True, max_length=15)
     date_entered = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(default=timezone.now)
@@ -33,6 +33,8 @@ class Volunteer(models.Model):
     status_notes = models.CharField(blank=True, max_length=2048)
     active = models.BooleanField(blank=True, default=False)
     volunteer_role = models.ManyToManyField(VolunteerRolesCatalog, related_name="volunteer_role" )
+    volunteer_preferred_times = models.TextField(blank=True)
+    other_notes = models.TextField(blank=True)
 
     def __str__(self):
         return self.first_name+' '+self.last_name

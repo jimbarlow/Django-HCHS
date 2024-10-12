@@ -21,7 +21,7 @@
 </style>
 
 <hr>
-<h3>HCHS Volunteers Directory                       {{ date_printed }}</h3>
+<h3>HCHS Volunteers with no assigned role                       {{ date_printed }}</h3>
 <hr>
 <div class="table-responsive">
 <table class="table table-bordered table-hover table-condensed table-striped">
@@ -33,7 +33,7 @@
       <th scope="col">Email</th>
       <th scope="col">Cats/Dogs/Both</th>   
       <th scope="col">Emergency Contact / Phone</th>
-      {% if user.username == 'jbarlow' or user.username == 'jlessert' or user.username == 'arandazzo' or user.username =='kjacob'%}
+      {% if user.username == 'jbarlow' or user.username == 'jlessert' or user.username == 'arandazzo' or user.username == 'kjacob' %}
       <th scope="col">Update</th>
       {% endif %}
     </tr>

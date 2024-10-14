@@ -62,11 +62,6 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 #     formset = MemberShipYearsFormset(instance=membership)
 #     return(render(request, 'formset.html', { 'formset' : formset, 'membership' : membership }))
 
-from django import template
-register = template.Library()
-
-def is_HCHS_Admins_member(user):
-    return user.groups,filter(name='HCHS_Admins').exists()
    
 @login_required(login_url='login')
 def roster_by_role(request):
@@ -157,7 +152,7 @@ def csv( request, year2view ):
 
     output_file_name = datetime.datetime.now().strftime("MFA-CSV %Y%m%d-%H.csv")
     # print
-    with open(output_file_name, 'w') as csvfile:
+    with oLpen(output_file_name, 'w') as csvfile:
       print (os.curdir)
       cwd = os.getcwd()
       print(cwd)
@@ -237,7 +232,6 @@ def mailtest(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(is_HCHS_Admins_member)
 def create(response):
     if response.method == "POST":
         form = VolunteerEntryForm(response.POST)
@@ -253,7 +247,6 @@ def create(response):
     return render(response, "create.html", {"form": form})
 
 @login_required(login_url='login')
-@user_passes_test(is_HCHS_Admins_member)
 def update(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     form = VolunteerEntryForm(request.POST or None, 
@@ -273,7 +266,7 @@ def update(request, volunteer_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(is_HCHS_Admins_member)
+
 def define_roles_catalog(request):
     if request.method == "POST":
         form = VolunteerRolesCatalogForm(request.POST)
@@ -288,7 +281,6 @@ def define_roles_catalog(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(is_HCHS_Admins_member)
 def update_roles_catalog(request, role_id):
     role = VolunteerRolesCatalog.objects.get(pk=role_id)
     form = VolunteerRolesCatalogForm(
@@ -307,7 +299,6 @@ def update_roles_catalog(request, role_id):
                 'form': form})   
 
 @login_required(login_url='login')
-@user_passes_test(is_HCHS_Admins_member)
 def delete_role(request, role_id):
     role = VolunteerRolesCatalog.objects.get(pk=role_id)
 

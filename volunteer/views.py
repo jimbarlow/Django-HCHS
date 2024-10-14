@@ -62,6 +62,11 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 #     formset = MemberShipYearsFormset(instance=membership)
 #     return(render(request, 'formset.html', { 'formset' : formset, 'membership' : membership }))
 
+from django import template
+register = template.Library()
+
+def is_HCHS_Admins_member(user):
+    return user.groups,filter(name='HCHS_Admins').exists()
    
 @login_required(login_url='login')
 def roster_by_role(request):
@@ -124,6 +129,7 @@ def browse_roster(request):
         
     obj = Volunteer.objects.all().order_by('last_name','first_name')
 
+
     # addresses = []
     # for address in obj:
     #     addresses.append(address.hartwell_address)
@@ -155,7 +161,6 @@ def csv( request, year2view ):
       print (os.curdir)
       cwd = os.getcwd()
       print(cwd)
-      print(os.listdir())
       # print("Changing one directory up")
       # os.chdir("..")
       # print(os.listdir())
@@ -169,19 +174,19 @@ def csv( request, year2view ):
     # <a href="{{ your_file_url}}" download>
 
     print('now we return the response')
-@login_required(login_url='login')
-def create(response):
-    form = VolunteerEntryForm(response.POST)
-    if response.method == "POST":
+    @login_required(login_url='login')
+    def create(response):
+        form = VolunteerEntryForm(response.POST)
+        if response.method == "POST":
 
-        if form.is_valid():
-            form.save()
-            # member_id=Membership.newmanager.get(last_name='')    form = VolunteerEntryForm()    
-            return redirect ( 'home')
-            # return redirect('/update/' + str(form.id) + '/')
-        else:
-            print("didn't pass is_valid")
-    return render(response, "create.html", {"form": form})
+            if form.is_valid():
+                form.save()
+                # member_id=Membership.newmanager.get(last_name='')    form = VolunteerEntryForm()    
+                return redirect ( 'home')
+                # return redirect('/update/' + str(form.id) + '/')
+            else:
+                print("didn't pass is_valid")
+        return render(response, "create.html", {"form": form})
 
     # f = open(csvfile, "r")
     f = open(output_file_name, "r")
@@ -232,6 +237,7 @@ def mailtest(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(is_HCHS_Admins_member)
 def create(response):
     if response.method == "POST":
         form = VolunteerEntryForm(response.POST)
@@ -247,6 +253,7 @@ def create(response):
     return render(response, "create.html", {"form": form})
 
 @login_required(login_url='login')
+@user_passes_test(is_HCHS_Admins_member)
 def update(request, volunteer_id):
     volunteer = Volunteer.objects.get(pk=volunteer_id)
     form = VolunteerEntryForm(request.POST or None, 
@@ -265,7 +272,8 @@ def update(request, volunteer_id):
                    'form': form})
 
 
-@login_required
+@login_required(login_url='login')
+@user_passes_test(is_HCHS_Admins_member)
 def define_roles_catalog(request):
     if request.method == "POST":
         form = VolunteerRolesCatalogForm(request.POST)
@@ -280,6 +288,7 @@ def define_roles_catalog(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(is_HCHS_Admins_member)
 def update_roles_catalog(request, role_id):
     role = VolunteerRolesCatalog.objects.get(pk=role_id)
     form = VolunteerRolesCatalogForm(
@@ -298,6 +307,7 @@ def update_roles_catalog(request, role_id):
                 'form': form})   
 
 @login_required(login_url='login')
+@user_passes_test(is_HCHS_Admins_member)
 def delete_role(request, role_id):
     role = VolunteerRolesCatalog.objects.get(pk=role_id)
 

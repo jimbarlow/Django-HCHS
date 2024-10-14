@@ -36,10 +36,10 @@ class VolunteerRolesCatalogForm(forms.ModelForm):
     class Meta:
         model = VolunteerRolesCatalog
         fields = ['vol_role_catalog', 'volunteer_role_catalog_description']
-        labels = {'vol_role_catalog': "Role", 'volunteer_role_catalog_description': "Role Description"}
+        labels = {'vol_r ole_catalog': "Role", 'volunteer_role_catalog_description': "Role Description"}
 
 
-# class VolunteerRoleForm(forms.ModelForm):
+# class VolunteerRoleForm(forms.MXRH lithium batteryodelForm):
 #     # assign roles to 
 #     class Meta:
 #         model = VolunteerRole

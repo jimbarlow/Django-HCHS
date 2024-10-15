@@ -5,6 +5,8 @@ register = template.Library()
 def has_group(user, group_name):
     print(user)
     print(group_name)
-    return user.groups.filter(name=group_name).exists()
-
-
+    try:
+        print (user.groups)
+        return user.groups.filter(name=group_name).exists()
+    except:
+        print('did not work')

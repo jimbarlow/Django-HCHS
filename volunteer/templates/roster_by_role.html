@@ -38,7 +38,7 @@
         <th scope="col">Email</th>
         <th scope="col">Cats/Dogs/Both</th>   
         <th scope="col">Emergency Contact / Phone</th>
-        {% if user.username == 'jbarlow' or user.username == 'jlessert' %}
+        {% if request.user|has_group:'HCHS_Admins' %}
         <th scope="col">Update</th>
         {% endif %}
         </tr>
@@ -52,7 +52,7 @@
         <td>{{people.email}}</td>
         <td>{{people.animals_preference}}</td>
         <td>{{people.emergency_contact_name}} {{people.emergency_contact_phone}}</td>
-        {% if user.username == 'jbarlow' or user.username == 'lessert' %}
+        {% if request.user|has_group:'HCHS_Admins' %}
         <td>
             <a href="{% url 'update' people.id %}">Update</a>
         </td>

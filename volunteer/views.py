@@ -317,7 +317,6 @@ def print_roles_catalog(request):
         }
     return render(request, 'roles_catalog.html', context)
 
-@user_passes_test(lambda user: user.is_staff )
 def about_us(request):
     return render ( request, 'about_us.html')
 

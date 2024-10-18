@@ -24,7 +24,6 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
-              {% comment %} {% load group_filters %} {% endcomment %}
               {% if request.user|has_group:'HCHS_Admins' %}
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/create/">Add Members</a>
@@ -56,22 +55,21 @@
               
               <ul class="dropdown-menu"
               aria-labeledby="navbarDropdown">
-
+              
               {% if request.user|has_group:'HCHS_Admins' %}
                 <li><a class="dropdown-item" href="/define_roles/">Create Roles</a></li>
               {% endif %}
                 <li><a class="dropdown-item" href="/print_roles_catalog/">View Roles</a></li>
               </ul>
-              
-              {% endif %}
 
+              {% endif %}
               {% if user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link disabled" aria-current="page" href="/files/">Links & Files</a>
               </li>
               {% endif %}
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="https://volunteers.harthumane.org/about_us/">About Us</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'about_us' %}">About Us</a>
               </li>
               {% if user.is_authenticated %}
               <li class="nav-item">

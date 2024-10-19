@@ -21,6 +21,7 @@ urlpatterns = [
     path('update_roles_catalog/<int:role_id>/', views.update_roles_catalog, name='update_roles_catalog'),
     path('about_us/', views.about_us, name='about_us'),
     path('delete_role/<int:role_id>/', views.delete_role, name="delete_role"),
+    path('delete_volunteer/<int:volunteer_id>/', views.delete_volunteer, name="delete_volunteer"),
     path('roster_by_role/', views.roster_by_role, name='roster_by_role'),
     path('roster_no_role/', views.roster_no_role, name='roster_no_role'),
     ]

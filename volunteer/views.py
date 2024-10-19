@@ -266,8 +266,16 @@ def delete_role(request, role_id):
     role.delete()
 
     return redirect('/print_roles_catalog/')
-@user_passes_test(lambda user: user.is_staff )
- 
+
+@login_required(login_url='login')
+#@permission_required("volunteer.add_volunteer",  raise_exception=True)
+def delete_volunteer(request, volunteer_id):
+    volunteer = Volunteer.objects.get(pk=volunteer_id)
+
+    volunteer.delete()
+
+    return redirect('/browse_roster/')
+
 
 @login_required(login_url='login')
 def print_roles_catalog(request):

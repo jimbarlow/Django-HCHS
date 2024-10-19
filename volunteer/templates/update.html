@@ -1,24 +1,40 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
 
 <body>
-    {% block content %}
-    <h3>Update an Entry</h3>
-    <li>Please update the data for the volunteer {{ volunteer.first_name }} {{ volunteer.last_name }}</li>
-    <br/>
-    <form method="post" action="/update/{{ volunteer.id }}/ ">
-        {% csrf_token %}
-        <table>
-        {{ form.as_table }}
-        </table>
-        <br/>
-        <button type="submit", name="save">Update This Entry</button>
-        <input type="button" onclick="location.href='/browse_roster/';" value="Return to Roster" />
+    <div class="container text-left">
+        <div class="row align-items-left">
+          <div class="col">
+            <h3>Update an Entry</h3>
+            <h4>Please update the data for the volunteer {{ volunteer.first_name }} {{ volunteer.last_name }}</h4>
+            <br/>
+            <form method="post" action="/update/{{ volunteer.id }}/ ">
+                {% csrf_token %}
+                <table>
+                {{ form|crispy }}
+                </table>
+                <br/>
+                <button type="submit", name="save" class="btn btn-primary">Update This Entry</button>
+                <input type="button" onclick="location.href='/browse_roster/';" class="btn btn-primary" value="Return to Roster" />
+            </form>
+            <br/>
+            <a href="/">Return to the Front Page</a>
+            <br/>
+            <br/>
+            Please make the entry inactive rather than deleting!
+            <br/>
+            <input type="button" onclick="location.href='/delete_volunteer/{{ volunteer.id}}';" class="btn btn-danger" value="Delete Volunteer (irreversible)" />
+            <br/>        
+          </div>
+          <div class="col">
+               
+              {% comment %} Empty column for form spacing {% endcomment %}
 
-        
-    </form>
-    <br/>
-    <a href="/">Return to the Front Page</a>
-
-
+          </div>
+        </div>
+     <br/>
+    
 </body>
 {% endblock %}

@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # class UserRegisterView(generic.CreateView):
 #     form_class = UserCreationForm

@@ -14,7 +14,6 @@ urlpatterns = [
     # path( 'mailtest/', views.mailtest, name='mailtest' ),
     #  path( '', views.front_page, name='home' ),
     path( '', TemplateView.as_view(template_name='front_page.html'), name='home'),
-    # path("create/", CreateVolunteerEntry.as_view(), name='create'),
     path('ingest_tickets/', views.tickets, name='ingest_tickets'),
     path('print_roles_catalog/', views.print_roles_catalog, name='print_roles_catalog'),
     path('print_tickets/', views.print_tickets, name='print_tickets'),

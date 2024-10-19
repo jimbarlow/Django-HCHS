@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, resolve_url
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required, login_required
 from django.db import models
 from django.template.loader import get_template
 from django.template import Template, Context
@@ -28,8 +28,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-
-# Create your views here.
+# Create your views here./
 # def front_page(request):
 #     return render(request, 'front_page.html')
 
@@ -101,7 +100,7 @@ def tickets(request):
         # checking if it is a file
         print ('Filename looped is:', filename)
         # if os.path.isfile(filename):
-        #     print(filename)
+        #     print(filename)response
         #     # fabs = os.path.abspath(f)
         entry = Tickets(ticket_path = filename)
         entry.save()
@@ -134,67 +133,29 @@ def browse_roster(request):
     context = {
         'obj': obj,
         'date_printed': datetime.date.today(),
-        }# class CreateRolesEntry(forms.ModelForm):
+        }# class CreateRolesEntry(forms.ModelForm):1
 #     class Meta:
 #         model = VolunteerRole
 #         fields = '__all__'
         
     return render(request, 'roster.html', context)
 
-@login_required(login_url='login')
-def csv( request, year2view ):
-    print ( year2view )  
-    print(type( year2view ))
-    end_year2view=str(int(year2view)+1)
-    print (end_year2view)
-    print(type(end_year2view))
-    obj = Membership.newmanager.all().filter(membershipyears__year__gte=datetime.date(int(year2view), 1, 1 )).filter(membershipyears__year__lt=datetime.date(int(end_year2view),1,1)).order_by('last_name','first_name').distinct()
 
-    output_file_name = datetime.datetime.now().strftime("MFA-CSV %Y%m%d-%H.csv")
-    # print
-    with oLpen(output_file_name, 'w') as csvfile:
-      print (os.curdir)
-      cwd = os.getcwd()
-      print(cwd)
-      # print("Changing one directory up")
-      # os.chdir("..")
-      # print(os.listdir())
-      # #  os.chdir("/static")
-      # # cwd = os.getcwd()
-      # print(cwd)reateVolunteerEntry
-      print(os.listdir())
+@login_required
+@permission_required("volunteer.add_volunteer",  raise_exception=True)
+def create(response, template_name='create.html'):
+    form = VolunteerEntryForm(response.POST)
+    if response.method == "POST":
 
-          # print(i.first_name +' '+ i.last_name +',' +i.email+','+ i.cell_phone)
-    
-    # <a href="{{ your_file_url}}" download>
+        if form.is_valid():
+            form.save()
+            # member_id=Membership.newmanager.get(last_name='')    form = VolunteerEntryForm()    
+            return redirect ( 'home')
+            # return redirect('/update/' + str(form.id) + '/')
+        else:
+            print("didn't pass is_valid")
+    return render(response, "create.html", {"form": form})
 
-    print('now we return the response')
-    @login_required(login_url='login')
-    def create(response):
-        form = VolunteerEntryForm(response.POST)
-        if response.method == "POST":
-
-            if form.is_valid():
-                form.save()
-                # member_id=Membership.newmanager.get(last_name='')    form = VolunteerEntryForm()    
-                return redirect ( 'home')
-                # return redirect('/update/' + str(form.id) + '/')
-            else:
-                print("didn't pass is_valid")
-        return render(response, "create.html", {"form": form})
-
-    # f = open(csvfile, "r")
-    f = open(output_file_name, "r")
-    return HttpResponse( f, headers={
-       'Content-Type': 'application/vnd.ms-excel',
-       'Content-Disposition': 'attachment; filename=mfa_evite_address_file.csv',
-       # 'Content-Disposition': 'attachment; filename={{ output_file_name }}',
-    })
-# '<a href="{{ csvfile }}" download>')
-
-    print(volunteer)
-    print(volunteer.id)
-    print(volunteer_id)
 @login_required(login_url='login')
 def mailtest(request):
 
@@ -231,20 +192,20 @@ def mailtest(request):
     return HttpResponse('This was the email test')
 
 
-@login_required(login_url='login')
-def create(response):
-    if response.method == "POST":
-        form = VolunteerEntryForm(response.POST)
-        if form.is_valid():
-            form.save()
-            # member_id=Membership.newmanager.get(last_name='')
-            return redirect ( 'home')    
+# @login_required(login_url='login')
+# def create(response):
+#     if response.method == "POST":
+#         form = VolunteerEntryForm(response.POST)
+#         if form.is_valid():
+#             form.save()
+#             # member_id=Membership.newmanager.get(last_name='')
+#             return redirect ( 'home')    
          
-            # return redirect('/update/' + str(form.id) + '/')
-        else:
-            print("didn't pass is_valid")
-    form = VolunteerEntryForm()
-    return render(response, "create.html", {"form": form})
+#             # return redirect('/update/' + str(form.id) + '/')
+#         else:
+#             print("didn't pass is_valid")
+#     form = VolunteerEntryForm()
+#     return render(response, "create.html", {"form": form})
 
 @login_required(login_url='login')
 def update(request, volunteer_id):
@@ -266,7 +227,7 @@ def update(request, volunteer_id):
 
 
 @login_required(login_url='login')
-
+@permission_required("volunteer.add_volunteer",  raise_exception=True)
 def define_roles_catalog(request):
     if request.method == "POST":
         form = VolunteerRolesCatalogForm(request.POST)
@@ -305,7 +266,7 @@ def delete_role(request, role_id):
     role.delete()
 
     return redirect('/print_roles_catalog/')
-
+@user_passes_test(lambda user: user.is_staff )
  
 
 @login_required(login_url='login')

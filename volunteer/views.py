@@ -27,41 +27,27 @@ from django.core.mail import send_mail, get_connection
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.db.models import QuerySet
 
-# Create your views here./
-# def front_page(request):
-#     return render(request, 'front_page.html')
+# Create your views here.
 
-# class FrontPageView(View):
-#     def get(self, request):
-#         return HttpResponse(request, 'front_page.html' )
 
-# class ModelFormWizard(SessionWizardView):
-# # https://django-formtools.readthedocs.io/en/latest/wizard.html
-#     template_name = 'modelwiz_entry.html'
-#     # print(membership_id)
-#     def done(self, form_list, **kwargs):
-#         for form in form_list:
-#             form.save()
-#         return H        ttpResponseRedirect('home')
-
-# def entry_form(request, membership_id, *args, **kwargs):
-
-#     membership = Membership.newmanager.get(pk=membership_id)
-#     print(membership.first_name + ' ' + membership.last_name)
+def test(request):
+# This view is for the calendar
+    today = datetime.date.today()
+    date_list = []
+    for i in range(21):
+        modified_date = today + datetime.timedelta(days=i)
+        modified_date = modified_date.strftime('%A %B %d, %Y')
+        date_list.append(modified_date)
     
-#     MemberShipYearsFormset = inlineformset_factory(Membership, MemberShipYears, fields = ('year',), extra=1, )
+    context = {
+        'date_list': date_list
+    }
 
-#     if request.method == 'POST':
-#         formset = MemberShipYearsFormset(request.POST, instance = membership)
-#         if formset.is_valid():
-#             formset.save()
-#             # return redirect('entry_form/'+ str(formset.id)+ '/')
-#             return redirect('entry_form', membership_id = membership_id)
-#     formset = MemberShipYearsFormset(instance=membership)
-#     return(render(request, 'formset.html', { 'formset' : formset, 'membership' : membership }))
+    return render(request, 'test.html', context)
 
-   
+
 @login_required(login_url='login')
 def roster_by_role(request):
 

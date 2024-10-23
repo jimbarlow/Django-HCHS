@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Grid</title>
+    <style>
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        padding: 2%px;
+      }
+      .grid-item {
+        border: 2px solid #0000ff;
+        padding: 5px;
+        text-align: center;
+      }
+      div {
+        background-color: white; 
+        border: 2px solid black;
+       }
+       
+      @media (max-width: 768px) {
+        .grid-container {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }   def get_range(value):
+      return range(value)
+      container{
+        border-style: solid;
+        color: ff0000;
+      }
+      @media (max-width: 480px) {
+        .grid-container {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {% load group_filters %}
+    <div class="grid-container">
+    {% for date in date_list %}
+      <div class="grid-item"> {{ date }} <br>
+      <div class="container"; style="align-items:center;justify-content:center; background-color:lightyellow;" >
+        Morning
+        {% comment %} {% for name in names %%}
+        print (name)
+        {% endfor %} {% endcomment %}
+      </div>
+      <div class="container" style="align-items:center;justify-content:center; background-color:lightgreen;">
+        Afternoon
+      </div>
+      <div class="container" style="align-items:center;justify-content:center; background-color:lightblue;">
+        Evening
+      </div>
+       
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

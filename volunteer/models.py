@@ -39,8 +39,18 @@ class Volunteer(models.Model):
     def __str__(self):
         return self.first_name+' '+self.last_name
     
+class Session(models.Model):
+    session_name = models.CharField(max_length=100, null=True, blank=True)
+    session_date = models.DateField()
+    session_time = models.TimeField()
+    session_volunteers = models.ManyToManyField(Volunteer, related_name="volunteers")
+    session_notes = models.TextField()
+    session_status = models.BooleanField(default=False)
+    session_date_entered = models.DateTimeField(default=timezone.now)
+    session_date_updated = models.DateTimeField(default=timezone.now)
 
-
+    def __str__(self):
+        return self.session_name
 
 class Tickets(models.Model):
     ticket_path = models.CharField(max_length=300)

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Test</title>
+    
+    <style>
+       h1{ color: red;}
+         .grid-container {
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          gap: 5px;
+          padding: 2%px; 
+
+         }
+         .grid-col-span-2 {
+          grid-column: span 2;
+         }
+         .grid-item {
+            border: 3px solid #55803d;
+            padding: 5px; 
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <h1>Grid Test Page</h1>
+    </header>
+    <main>
+        <section class="grid-container">
+            <div class="grid-item grid-col-span-2">Item 1</div>
+            <div class="grid-item">Item 2</div>
+            <div class="grid-item">Item 3</div>
+            <div class="grid-item">Item 4</div>
+            <div class="grid-item">Item 5</div>
+            <div class="grid-item">Item 6</div>
+            <div class="grid-item">Item 7</div>
+            <div class="grid-item">Item 8</div>
+            <div class="grid-item">Item 9</div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your Company</p>
+    </footer>
+</body>
+</html>

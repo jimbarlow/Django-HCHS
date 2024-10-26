@@ -166,8 +166,6 @@ def mailtest(request):
     #         'cellphone': cellphone,
     #         'email': email,
     #         'otherphone': otherphone,    print(volunteer)
-    print(volunteer.id)
-    print(volunteer_id)
     #         'address': address,
     #         'otheraddress': otheraddress,
     #         'emergencycontact': emergencycontact

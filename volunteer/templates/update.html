@@ -18,6 +18,12 @@
                 <br/>
                 <button type="submit", name="save" class="btn btn-primary">Update This Entry</button>
                 <input type="button" onclick="location.href='/browse_roster/';" class="btn btn-primary" value="Return to Roster" />
+                
+                <br/>
+                <br/>
+                <br/>  
+                <input type="button" onclick="location.href='/delete_volunteer/{{ volunteer.id }}';" class="btn btn-danger" value="Delete Volunteer (irreversible)" />
+                <br/>     
             </form>
             <br/>
             <a href="/">Return to the Front Page</a>
@@ -25,9 +31,7 @@
             <br/>
             Please make the entry inactive rather than deleting!
             <br/>
-            <input type="button" onclick="location.href='/delete_volunteer/{{ volunteer.id}}';" class="btn btn-danger" value="Delete Volunteer (irreversible)" />
-            <br/>        
-          </div>
+            </div>
           <div class="col">
                
               {% comment %} Empty column for form spacing {% endcomment %}

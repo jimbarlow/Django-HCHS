@@ -11,6 +11,7 @@ urlpatterns = [
     # # path( 'formset_practice/<int:membership_id>/', ModelFormWizard.as_view([CreateMembershipEntry, MemberShipYearsForm], membership_id='membership_id'), name='formset_practice'),
     # path( 'entry_form/<membership_id>/', views.entry_form, name='entry_form'),
     path( 'create/', views.create, name='create'),
+    path('volunteer_signup/', views.volunteer_signup, name='volunteer_signup'),
     path( 'update/<int:volunteer_id>/', views.update, name='update' ),
     # path( 'mailtest/', views.mailtest, name='mailtest' ),
     #  path( '', views.front_page, name='home' ),
@@ -25,4 +26,6 @@ urlpatterns = [
     path('delete_volunteer/<int:volunteer_id>/', views.delete_volunteer, name="delete_volunteer"),
     path('roster_by_role/', views.roster_by_role, name='roster_by_role'),
     path('roster_no_role/', views.roster_no_role, name='roster_no_role'),
+    path('search/', views.search_view, name='search_view'),
+    path('search/results/', views.search_results_view, name='search_results_view'),
     ]

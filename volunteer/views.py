@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, resolve_url
 from django.contrib.auth.decorators import user_passes_test, permission_required, login_required
 from django.db import models
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 from django.template import Template, Context
-from .models import Volunteer,  Tickets, VolunteerRolesCatalog
+from .models import Volunteer, Tickets, VolunteerRolesCatalog
 from django.urls import reverse
 # Datetime stuff
 import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+
 # from collections import Counter
-from .forms import VolunteerEntryForm  # VolunteerRoleForm,
+from .forms import VolunteerEntryForm, VolunteerSignupForm
 from django.views.decorators.csrf import csrf_protect
 from django.core.mail import EmailMessage
 import os
@@ -27,9 +28,40 @@ from django.core.mail import send_mail, get_connection
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Q
 
 # Create your views here.
+
+def volunteer_signup(request, template_name='volunteer_signup.html'):
+    form = VolunteerEntryForm(request.POST)
+    if request.method == "POST":
+
+        if form.is_valid():
+            form.save()
+            # member_id=Membership.newmanager.get(last_name='')    form = VolunteerEntryForm()    
+            return redirect ( 'home')
+            # return redirect('/update/' + str(form.id) + '/')
+        else:
+            print("didn't pass is_valid")
+    return render(request, 'volunteer_signup.html', {'form': VolunteerSignupForm })
+
+def search_results_view(request):
+    query = request.GET.get('search', '')
+    print(f'{query = }')
+
+    all_volunteers = Volunteer.objects.all()
+    if query:
+        volunteers = all_volunteers.filter(Q(first_name__icontains=query)|Q(last_name__icontains=query))
+    else:
+        all_volunteers = []
+
+    context = {'volunteers': volunteers, 'count': volunteers.count()}
+    return render(request, 'search_results.html', context)
+
+def search_view(request):
+    all_volunteers = Volunteer.objects.all()
+    context = {'count': all_volunteers.count()}
+    return render(request, 'search.html', context)
 
 
 def test(request):

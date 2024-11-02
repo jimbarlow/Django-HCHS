@@ -1,9 +1,30 @@
 from email.policy import default
 from django import forms
 from django.forms import ModelForm
-from .models import Volunteer, VolunteerRolesCatalog
+from .models import Volunteer, VolunteerRolesCatalog, CareSession   
 
 from django.utils import timezone
+
+class VolunteerSignupForm(forms.ModelForm):
+    
+    # volunteer_role = forms.ModelMultipleChoiceField(queryset=VolunteerRolesCatalog.objects.all(),widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = Volunteer
+        fields = [
+            'first_name', 
+            'last_name', 
+            'cell_phone',
+            'email',
+            'home_phone',
+            'address',
+            'emergency_contact_name',
+            'emergency_contact_phone',
+            'animals_preference',
+            'volunteer_preferred_times',
+            'other_notes'
+        ]
+
 
 class VolunteerEntryForm(forms.ModelForm):
     
@@ -38,6 +59,25 @@ class VolunteerRolesCatalogForm(forms.ModelForm):
         fields = ['vol_role_catalog', 'volunteer_role_catalog_description']
         labels = {'vol_r ole_catalog': "Role", 'volunteer_role_catalog_description': "Role Description"}
 
+class CareSessionForm(forms.ModelForm):
+    class Meta:
+        model = CareSession
+        fields = ['care_session_date', 'care_session_slot', 'care_session_volunteers', 'session_notes']
+        labels = {'care_session_date': 'Date', 'care_session_slot': 'Time Slot', 'care_session_volunteers': 'Volunteers', 'session_notes': 'Notes'}
+        widgets = {
+            'care_session_date': forms.DateInput(attrs={'type': 'date'}),
+            'care_session_slot': forms.TextInput(attrs={'placeholder': 'Enter Time Slot'}),
+            'care_session_volunteers': forms.CheckboxSelectMultiple(attrs={'placeholder': 'Select Volunteers'}),
+            'session_notes': forms.Textarea(attrs={'placeholder': 'Enter Notes'})
+        }
+class VolunteerSearchForm(forms.Form):
+    search_query = forms.CharField(label='Search Volunteers', widget=forms.TextInput(attrs={'placeholder': 'Search...'}))
+
+    def search(self):
+        query = self.cleaned_data.get('search_query')
+        if query:
+            return Volunteer.objects.filter(first_name__icontains=query) | Volunteer.objects.filter(last_name__icontains=query)
+        return Volunteer.objects.none()
 
 # class VolunteerRoleForm(forms.MXRH lithium batteryodelForm):
 #     # assign roles to 

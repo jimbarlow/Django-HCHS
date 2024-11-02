@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<body>
+<div class="container text-left">
+    <div class="row align-items-left">
+    <div class="col")
+        <h2>Volunteer Signup</h2>
+        <h3>Please make sure to include your email so we can contact you</h3>
+
+        <main>
+            <form action="{% url 'volunteer_signup' %}" method="post">
+                {% csrf_token %}
+                <table>
+                    {{ form|crispy }}
+                </table>
+                <button type="submit" name="save" class="btn btn-primary">Sign Up</button>
+            </form>
+        </main>
+    </div>
+    <div class="col">
+
+    </div>
+
+</body>
+</div>
+{% endblock %}

@@ -33,7 +33,7 @@ from django.db.models import QuerySet, Q
 # Create your views here.
 
 def volunteer_signup(request, template_name='volunteer_signup.html'):
-    form = VolunteerEntryForm(request.POST)
+    form = VolunteerSignupForm(request.POST)
     if request.method == "POST":
 
         if form.is_valid():
@@ -43,7 +43,7 @@ def volunteer_signup(request, template_name='volunteer_signup.html'):
             # return redirect('/update/' + str(form.id) + '/')
         else:
             print("didn't pass is_valid")
-    return render(request, 'volunteer_signup.html', {'form': VolunteerSignupForm })
+    return render(request, 'volunteer_signup.html', {'form': form })
 
 def search_results_view(request):
     query = request.GET.get('search', '')

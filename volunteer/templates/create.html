@@ -4,27 +4,24 @@
 {% block content %}
 
 <body>
-    <div class="container text-left">
-        <div class="row align-items-left">
-          <div class="col">
-            <h3>Create an Entry</h3>
-            <p>Please enter the data for the Volunteer</p>
-            <form method="post" action="/volunteer/create/">
-                {% csrf_token %}
-                <table>
-                {{ form|crispy }}
-                </table>
-                <button type="submit", name="save" class="btn btn-primary">Create New Volunteer</button>
-                <input type="button" onclick="location.href='/';" class="btn btn-primary" value="Return to Front Page" />
-            </form>
-          </div>
-          <div class="col">
-               
-              {% comment %} Empty column for form spacing {% endcomment %}
-
-          </div>
-        </div>
+  <div class="container text-left">
+    <div class="row align-items-left">
+      <div class="col">
+        <h3>Create an Entry</h3>
+        <p>Please enter the data for the Volunteer</p>
+        <form method="post" action="/volunteer/create/">
+          {% csrf_token %}
+          <table>
+            {{ form|crispy }}
+          </table>
+          <button type="submit", name="save" class="btn btn-primary">Create New Volunteer</button>
+          <input type="button" onclick="location.href='/';" class="btn btn-primary" value="Return to Front Page" />
+        </form>
+      </div>
+      <div class="col">
+      {% comment %} Empty column for form spacing {% endcomment %}
+      </div>
     </div>
-<div>
+  </div>  
 </body>
 {% endblock %}
